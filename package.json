@@ -1,0 +1,19 @@
+{
+  "name": "rateguardjs",
+  "version": "1.0.0",
+  "description": "A simple JavaScript module for time-based rate limiting to control request flow in REST APIs efficiently.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cameronMcConnell/RateGuardJs.git"
+  },
+  "author": "Cameron McConnell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cameronMcConnell/RateGuardJs/issues"
+  },
+  "homepage": "https://github.com/cameronMcConnell/RateGuardJs#readme"
+}
