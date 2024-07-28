@@ -1,28 +1,63 @@
 export default class RateGuardJS {
     #urlTotalRequests
+    #urlFirstAccessTimes
     
-    constructor(totalRequests, timeoutMinutes) {
-        this.totalRequests = totalRequests
+    constructor(totalAllowedRequests, totalRequestsWindowMins, timeoutMinutes) {
+        this.totalAllowedRequests = totalAllowedRequests
+        this.totalRequestsWindowMins = totalRequestsWindowMins
         this.timeoutMinutes = timeoutMinutes
-        this.#urlTotalRequests = {}
+        this.#urlTotalRequests = this.#loadUrlTotalRequests() || {}
+        this.#urlFirstAccessTimes = this.#loadUrlFirstAccessTimes() || {}
     }
 
-    async sendRequest(url, requestHandler) {
+    async sendRequest(url, params, requestHandler) {
+        const currentTime = Date.now()
+
         if (!this.#urlTotalRequests[url]) {
             this.#urlTotalRequests[url] = 0
+            this.#urlFirstAccessTimes[url] = currentTime
+            this.#saveUrlFirstAccessTimes()
+        }
+
+        const timeElapsed = this.#msToMins(currentTime - this.#urlFirstAccessTimes[url])
+
+        if (timeElapsed > this.totalRequestsWindowMins) {
+            this.#urlTotalRequests[url] = 0
+            this.#urlFirstAccessTimes[url] = currentTime
+            this.#saveUrlFirstAccessTimes()
         }
 
         this.#urlTotalRequests[url] += 1
+        this.#saveUrlTotalRequests()
 
-        if (this.#urlTotalRequests[url] >= this.totalRequests) {
-            this.#urlTotalRequests[url] = 0
+        if (this.#urlTotalRequests[url] > this.totalAllowedRequests) {
             await this.#delay(this.timeoutMinutes * 60 * 1000)
         }
 
-        return requestHandler(url)
+        return requestHandler(url, params)
+    }
+
+    #msToMins(ms) {
+        return ms / 1000 / 60
     }
 
     #delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    #loadUrlTotalRequests() {
+        return JSON.parse(localStorage.getItem("urlTotalRequests"))
+    }
+
+    #saveUrlTotalRequests() {
+        localStorage.setItem("urlTotalRequests", JSON.stringify(this.#urlTotalRequests))
+    }
+
+    #loadUrlFirstAccessTimes() {
+        return JSON.parse(localStorage.getItem("urlFirstAccessTimes"))
+    }
+
+    #saveUrlFirstAccessTimes() {
+        localStorage.setItem("urlFirstAccessTimes", JSON.stringify(this.#urlFirstAccessTimes))
     }
 }
