@@ -62,14 +62,14 @@ src/
 new RateGuardJS(totalAllowedRequests, totalRequestsWindowMins, timeoutMinutes)
 ```
 
-* totalAllowedRequests: The maximum number of requests allowed within the time window.
-* totalRequestsWindowMins: The time window duration in minutes.
-* timeoutMinutes: The delay duration in minutes if the request limit is exceeded.
+* `totalAllowedRequests`: The maximum number of requests allowed within the time window.
+* `totalRequestsWindowMins`: The time window duration in minutes.
+* `timeoutMinutes`: The delay duration in minutes if the request limit is exceeded.
 
 ### sendRequest(url, params, requestHandler)
-* url: The URL to which the request is made.
-* params: The parameters for the request.
-* requestHandler: The function to handle the request. It should return a promise.
+* `url`: The URL to which the request is made.
+* `params`: The parameters for the request.
+* `requestHandler`: The function to handle the request. It should return a promise.
 
 ## Unit Tests
 Jest is included in the package.json. To run the unit tests, simply use:
