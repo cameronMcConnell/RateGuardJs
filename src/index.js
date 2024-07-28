@@ -30,7 +30,7 @@ export default class RateGuardJS {
         this.#urlTotalRequests[url] += 1
         this.#saveUrlTotalRequests()
 
-        if (this.#urlTotalRequests[url] > this.totalAllowedRequests) {
+        if (this.#urlTotalRequests[url] >= this.totalAllowedRequests) {
             await this.#delay(this.timeoutMinutes * 60 * 1000)
         }
 
@@ -46,7 +46,11 @@ export default class RateGuardJS {
     }
 
     #loadUrlTotalRequests() {
-        return JSON.parse(localStorage.getItem("urlTotalRequests"))
+        const value = localStorage.getItem("urlTotalRequests")
+        if (value != null) {
+            return JSON.parse(value)
+        }
+        return value
     }
 
     #saveUrlTotalRequests() {
@@ -54,7 +58,11 @@ export default class RateGuardJS {
     }
 
     #loadUrlFirstAccessTimes() {
-        return JSON.parse(localStorage.getItem("urlFirstAccessTimes"))
+        const value = localStorage.getItem("urlFirstAccessTimes")
+        if (value != null) {
+            return JSON.parse(value)
+        }
+        return value
     }
 
     #saveUrlFirstAccessTimes() {
