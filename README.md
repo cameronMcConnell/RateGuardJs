@@ -56,9 +56,8 @@ src/
 
 ## API
 
-### RateGuardJS
 
-#### Constructor
+### Constructor
 ```javascript
 new RateGuardJS(totalAllowedRequests, totalRequestsWindowMins, timeoutMinutes)
 ```
@@ -67,7 +66,7 @@ new RateGuardJS(totalAllowedRequests, totalRequestsWindowMins, timeoutMinutes)
 * totalRequestsWindowMins: The time window duration in minutes.
 * timeoutMinutes: The delay duration in minutes if the request limit is exceeded.
 
-#### sendRequest(url, params, requestHandler)
+### sendRequest(url, params, requestHandler)
 * url: The URL to which the request is made.
 * params: The parameters for the request.
 * requestHandler: The function to handle the request. It should return a promise.
